@@ -65,6 +65,7 @@
     <script src="./layui/layui.js"></script>
     <script>
         var $ = layui.jquery, form = layui.form, layer = layui.layer;
+        var book_id = 0;
         $("#borrow").on("click", function (e) {
             $("#step-1").css("display", "none");
             $("#step-2").attr("style", "")
@@ -98,14 +99,14 @@
         $("#book_id").on("blur", function (e) {
             let val = e.target.value
             if (val != "") {
-                $.get("http://fb.ufatfat.com/api/books/" + e.target.value, function (res, status) {
+                $.get("http://fb.ufatfat.com/api/books/" + val, function (res, status) {
                     if (status == "success") {
                         console.log(res)
                         idx = layer.msg("您正在借的书是：" + res.data.book_name, {
                             btn: "确定",
                             time: 200000,
                             yes: function () {
-                                post_data.book_id = e.target.value;
+                                book_id = val
                                 $("#sub").removeClass("layui-hide");
                                 layer.close(idx)
                             }
