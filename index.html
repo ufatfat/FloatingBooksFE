@@ -65,17 +65,13 @@
     <script src="./layui/layui.js"></script>
     <script>
         var $ = layui.jquery, form = layui.form, layer = layui.layer;
-        var post_data = {};
         $("#borrow").on("click", function (e) {
             $("#step-1").css("display", "none");
             $("#step-2").attr("style", "")
         });
         $("#step-2-btn").on("click", function (e) {
             $("#step-2").css("display", "none");
-            $("#step-3").attr("style", "")
-            post_data.name = $("#name").val()
-            post_data.student_id = $("#student_id").val()
-            post_data.phone = $("#phone").val()
+            $("#step-3").attr("style", "");
         });
         $("#student_id").on("blur", function (e) {
             let val = e.target.value;
@@ -123,19 +119,17 @@
         });
         $("#sub").on("click", function (e) {
             $.post("http://fb.ufatfat.com/api/books", {
-                data: post_data,
-            }, function (res, status) {
+                data: {
+                    name:  $("#name").val(),
+                    student_id: $("#student_id").val(),
+                    phone:  $("#phone").val(),
+                },
+            }, function (data, status) {
                 if (status == "success") {
-                    console.log(res);
+                    console.log(data);
                 }
             })
         });
-        form.verify({
-            student_id: [
-                /^[UMDumd](20)((1[6-9])|(20))\d{5}$/,
-                "请输入正确的学号！",
-            ], 
-        })
         form.render();
     </script>
 </html>
