@@ -20,28 +20,31 @@
             <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
                 <legend>借书者信息</legend>
             </fieldset>
+            <form class="layui-form" action="">
+
             <div class="layui-form-item" style="margin-right: 8vw;">
                 <label class="layui-form-label">姓名：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="name" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                    <input type="text" id="name" lay-verify="required" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
             </div>
             
             <div class="layui-form-item" style="margin-right: 8vw;">
                 <label class="layui-form-label">学号：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="student_id" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                    <input type="text" id="student_id" lay-verify="required|student_id" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
             </div>
 
             <div class="layui-form-item" style="margin-right: 8vw;">
                 <label class="layui-form-label">手机：</label>
                 <div class="layui-input-block">
-                    <input type="text" id="phone" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                    <input type="text" id="phone" lay-verify="required|phone" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
             </div>
+            </form>
             <div style="text-align: center;">
-                <button class="layui-btn" id="step-2-btn">下一步</button>
+                <button class="layui-btn" id="step-2-btn" lay-submit="" type="submit">下一步</button>
             </div>
         </div>
         <div id="step-3" style="display: none;">
@@ -74,16 +77,41 @@
             post_data.student_id = $("#student_id").val()
             post_data.phone = $("#phone").val()
         });
-        $("#book_id").on("blur", function (e) {
-            val = e.target.value
+        $("#student_id").on("blur", function (e) {
+            let val = e.target.value;
             if (val != "") {
-                $.get("/api/books/" + e.target.value, function (res, status) {
+                let regExp = /^[UMDumd](20)((1[6-9])|(20))\d{5}$/;
+                if (!regExp.test(val)) {
+                    layer.msg("请输入正确的学号！");
+                }
+            } else {
+                layer.msg("请输入学号！");
+            }
+        });
+        $("#phone").on("blur", function (e) {
+            let val = e.target.value;
+            if (val != "") {
+                let regExp = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+                if (!regExp.test(val)) {
+                    layer.msg("请输入正确的手机号！");
+                }
+            } else {
+                layer.msg("请输入手机号！");
+            }
+        });
+        $("#book_id").on("blur", function (e) {
+            let val = e.target.value
+            if (val != "") {
+                $.get("http://fb.ufatfat.com/api/books/" + e.target.value, function (res, status) {
                     if (status == "success") {
-                        layer.msg("您正在借的书是：" + res.data.data.book_name, {
+                        console.log(res)
+                        idx = layer.msg("您正在借的书是：" + res.data.book_name, {
                             btn: "确定",
+                            time: 200000,
                             yes: function () {
                                 post_data.book_id = e.target.value;
                                 $("#sub").removeClass("layui-hide");
+                                layer.close(idx)
                             }
                         })
                     }
@@ -94,7 +122,7 @@
             $("#sub").addClass("layui-hide")
         });
         $("#sub").on("click", function (e) {
-            $.post("/api/books", {
+            $.post("http://fb.ufatfat.com/api/books", {
                 data: post_data,
             }, function (res, status) {
                 if (status == "success") {
@@ -102,6 +130,12 @@
                 }
             })
         });
+        form.verify({
+            student_id: [
+                /^[UMDumd](20)((1[6-9])|(20))\d{5}$/,
+                "请输入正确的学号！",
+            ], 
+        })
         form.render();
     </script>
 </html>
