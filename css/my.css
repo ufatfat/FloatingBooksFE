@@ -2,12 +2,18 @@
     width: 50vw;
     height: 30vh;
     margin: 50px 30px;
+    border-radius: 10vw;
+    border: none;
+    font-size: xx-large;
 }
 .my-btn-borrow {
-
+    background-color: aqua;
 }
 .my-btn-return {
-
+    background-color: cornflowerblue;
+}
+.my-required{
+    color: red;
 }
 #step-1 {
     position: absolute;

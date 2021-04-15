@@ -23,21 +23,21 @@
             <form class="layui-form" action="">
 
             <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label">姓名：</label>
+                <label class="layui-form-label"><span class="my-required">*</span>姓名：</label>
                 <div class="layui-input-block">
                     <input type="text" id="name" lay-verify="required" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
             </div>
             
             <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label">学号：</label>
+                <label class="layui-form-label"><span class="my-required">*</span>学号：</label>
                 <div class="layui-input-block">
                     <input type="text" id="student_id" lay-verify="required|student_id" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
             </div>
 
             <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label">手机：</label>
+                <label class="layui-form-label"><span class="my-required">*</span>手机：</label>
                 <div class="layui-input-block">
                     <input type="text" id="phone" lay-verify="required|phone" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                 </div>
@@ -71,11 +71,23 @@
             $("#step-2").attr("style", "")
         });
         $("#step-2-btn").on("click", function (e) {
-            $("#step-2").css("display", "none");
-            $("#step-3").attr("style", "")
-            post_data.name = $("#name").val()
-            post_data.student_id = $("#student_id").val()
-            post_data.phone = $("#phone").val()
+            if ($("#name").val() == "") {
+                layer.msg("请输入姓名！");
+            } else if ($("#student_id").val() == "") {
+                    layer.msg("请输入正确的学号！");
+            } else if ($("#phone").val() == "") {
+                layer.msg("请输入正确的手机号！");
+            } else {
+                $("#step-2").css("display", "none");
+                $("#step-3").attr("style", "");
+                post_data.name = $("#name").val();
+                post_data.student_id = $("#student_id").val();
+                post_data.phone = $("#phone").val();
+            }
+        });
+        $("#name").on("blur", function (e) {
+            if (e.target.value == "") 
+                layer.msg("请输入姓名！");
         });
         $("#student_id").on("blur", function (e) {
             let val = e.target.value;
@@ -119,14 +131,17 @@
            }
         });
         $("#book_id").on("focus", function (e) {
-            $("#sub").addClass("layui-hide")
+            $("#sub").addClass("layui-hide");
         });
         $("#sub").on("click", function (e) {
             $.post("http://fb.ufatfat.com/api/books", {
                 data: JSON.stringify(post_data)
             }, function (data, status) {
                 if (status == "success") {
-                    console.log(data);
+                    layer.msg(data.msg);
+                    setInterval(function() {
+                        location.href = "http://fb.ufatfat.com/";
+                    }, 2000);
                 }
             })
         });
