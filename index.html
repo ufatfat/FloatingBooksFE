@@ -7,58 +7,72 @@
         <link rel="stylesheet" href="./layui/css/layui.css">
         <link rel="stylesheet" href="./css/my.css">
     </head>
-    <body>
-        <div id="step-1">
-            <button class="my-btn my-btn-borrow" id="borrow">
-                我要借书
-            </button>
-            <button class="my-btn my-btn-return" id="return">
-                我要还书
-            </button>
-        </div>
-        <div id="step-2" style="display: none;">
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>借书者信息</legend>
-            </fieldset>
-            <form class="layui-form" action="">
-
-            <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label"><span class="my-required">*</span>姓名：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="name" lay-verify="required" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+    <body class="my-page">
+        <div class="my-container">
+            <div class="text">
+                <p>本活动借用归还规则如下：</p>
+                <div class="text-style-1">
+                    <p>1、本图书漂流活动不设借书证与押金，借用者只需在所设“图书漂流点”按活动流程进行借阅;</p>
+                    <p>2、借书者在借书与还书前都需在“图书漂流点”处扫描下二维码，并按所提示信息进行登记;</p>
+                    <p>3、借书者在“图书漂流点”每次借书数量限一本，且一个星期之内要将该书归还回某十处“图书漂流点”;</p>
+                    <p>4、请爱惜所借用的图书，并保证“漂流图书”的正常使用;若发现图书受故意损毁,承办方有权向借用人进行索赔;</p>
+                    <p>5、最终解释权规环境科学与工程学院学生会所有。</p>
                 </div>
             </div>
-            
-            <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label"><span class="my-required">*</span>学号：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="student_id" lay-verify="required|student_id" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+            <div class="my-form-container">
+                <div id="step-1">
+                    <button class="my-btn my-btn-borrow" id="borrow">
+                        我要借书
+                    </button>
+                    <button class="my-btn my-btn-return" id="return">
+                        我要还书
+                    </button>
                 </div>
-            </div>
-
-            <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label"><span class="my-required">*</span>手机：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="phone" lay-verify="required|phone" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                <div id="step-2" style="display: none;">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                        <legend>借书者信息</legend>
+                    </fieldset>
+                    <form class="layui-form" action="">
+        
+                    <div class="layui-form-item" style="margin-right: 8vw;">
+                        <label class="layui-form-label"><span class="my-required">*</span>姓名：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="name" lay-verify="required" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item" style="margin-right: 8vw;">
+                        <label class="layui-form-label"><span class="my-required">*</span>学号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="student_id" lay-verify="required|student_id" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                        </div>
+                    </div>
+        
+                    <div class="layui-form-item" style="margin-right: 8vw;">
+                        <label class="layui-form-label"><span class="my-required">*</span>手机：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="phone" lay-verify="required|phone" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                        </div>
+                    </div>
+                    </form>
+                    <div style="text-align: center;">
+                        <button class="layui-btn" id="step-2-btn" lay-submit="" type="submit">下一步</button>
+                    </div>
                 </div>
-            </div>
-            </form>
-            <div style="text-align: center;">
-                <button class="layui-btn" id="step-2-btn" lay-submit="" type="submit">下一步</button>
-            </div>
-        </div>
-        <div id="step-3" style="display: none;">
-            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
-                <legend>书籍信息</legend>
-            </fieldset>
-            <div class="layui-form-item" style="margin-right: 8vw;">
-                <label class="layui-form-label">书籍编号：</label>
-                <div class="layui-input-block">
-                    <input type="text" id="book_id" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                <div id="step-3" style="display: none;">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                        <legend>书籍信息</legend>
+                    </fieldset>
+                    <div class="layui-form-item" style="margin-right: 8vw;">
+                        <label class="layui-form-label">书籍编号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="book_id" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="layui-btn layui-hide" id="sub">提交</button>
+                    </div>
                 </div>
-            </div>
-            <div style="text-align: center;">
-                <button class="layui-btn layui-hide" id="sub">提交</button>
             </div>
         </div>
     </body>

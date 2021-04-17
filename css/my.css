@@ -1,23 +1,70 @@
+::-webkit-scrollbar {
+    display: none;
+}
 .my-btn {
-    width: 50vw;
-    height: 30vh;
-    margin: 50px 30px;
+	height: 10vh;
+    width: 100%;
     border-radius: 10vw;
     border: none;
-    font-size: xx-large;
+	font-family: HGXBS_CNKI;
+	font-size: 6.02vh;
+	font-weight: bold;
+	font-stretch: normal;
+	line-height: 2.17vh;
+	letter-spacing: 0.96vh;
+	color: #fff8f8;
+    margin: 1.54vh auto;
 }
 .my-btn-borrow {
-    background-color: aqua;
+    background-color: #129cad;
 }
 .my-btn-return {
-    background-color: cornflowerblue;
+    background-color: #129cad;
 }
 .my-required{
     color: red;
 }
-#step-1 {
+.text {
+	font-family: HGXBS_CNKI;
+	font-size: 2.08vh;
+	font-weight: bold;
+	font-stretch: normal;
+	line-height: 3.49vh;
+	letter-spacing: 0.34vh;
+	color: #000000;
+    margin: 2.54vh 2.26vh auto;
+    padding-bottom: 1.86vh;
+    border-bottom: 0.27vh dotted #129cad;
+}
+.text .text-style-1 {
+	font-family: HGXBS_CNKI;
+	font-size: 1.36vh;
+	font-weight: bold;
+	letter-spacing: 0.22vh;
+	color: #000000;
+    line-height: 1.8vh;
+}
+  
+.my-page {
+    background-image: url(../img/背景.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+	width: 56.25vh;
+	height: 100vh;
+}
+.my-container {
+    width: 82vw;
+    height: 114vw;
+    background-color: #ffffff;
+    border-radius: 4vw;
+    border: solid 0vw #ffffff;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: 43vw 9vw 20vw;
+}
+.my-form-container {
+    margin: 1.72vh 2.54vh auto;
+    height: 100%;
+}
+#step-1 {
+    height: 100%;
 }
