@@ -19,7 +19,7 @@
                     <p>5、最终解释权规环境科学与工程学院学生会所有。</p>
                 </div>
             </div>
-            <div class="my-form-container">
+            <div class="my-form-container layui-form">
                 <div id="step-1">
                     <button class="my-btn my-btn-borrow" id="borrow">
                         我要借书
@@ -64,7 +64,7 @@
                         <legend>书籍信息</legend>
                     </fieldset>
                     <div class="layui-form-item" style="margin-right: 8vw;">
-                        <label class="layui-form-label">书籍编号：</label>
+                        <label class="layui-form-label"><span class="my-required">*</span>书籍编号：</label>
                         <div class="layui-input-block">
                             <input type="text" id="book_id" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
                         </div>
@@ -73,16 +73,92 @@
                         <button class="layui-btn layui-hide" id="sub">提交</button>
                     </div>
                 </div>
+                <div id="step-4" style="display: none;">
+                    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                        <legend>还书信息</legend>
+                    </fieldset>
+                    <div class="layui-form-item" style="margin-right: 8vw;">
+                        <label class="layui-form-label"><span class="my-required">*</span>书籍编号：</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="book_id_2" lay-verify="title" autocomplete="off" placeholder="&#xe66f;" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="my-required">*</span>还书地点：</label>
+                        <div class="layui-input-block">
+                            <select id="return_place" name="return_place" lay-filter="return_place" lay-search>
+                                <option value="" selected>请选择还书地点</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">读书感想：</label>
+                        <div class="layui-input-block">
+                            <textarea id="thoughts" name="desc" placeholder="请输入内容" class="layui-textarea" style="resize: none;"></textarea>
+                            <span id="wordsLength" style="position:absolute; right:5px; bottom:3vh;font-size:12px; color:#BDCADA">0/1037</span>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <button class="layui-btn" id="ret">提交</button>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
     <script src="./layui/layui.js"></script>
     <script>
         var $ = layui.jquery, form = layui.form, layer = layui.layer;
-        var post_data = {};
+        var borrow_data = {}, return_data = {};
+        $("#ret").on("click", function (e) {
+            let loc = $("#return_place").val();
+            let bookID = $("#book_id_2").val();
+            let thoughts = $("#thoughts").val();
+            if (bookID == "") {
+                layui.msg("请输入书籍编号！");
+                return
+            }
+            if (loc == "") {
+                layui.msg("请选择还书地点！");
+                return
+            }
+            return_data.location_id = loc;
+            return_data.book_id = bookID;
+            return_data.thoughts = thoughts;
+
+            $.post("http://fb.ufatfat.com/api/books/ret", {
+                data: JSON.stringify(return_data)
+            }, function (data, status) {
+                if (status == "success") {
+                    layer.msg("还书成功！");
+                    setInterval(function() {
+                        location.href = "http://fb.ufatfat.com/";
+                    }, 2000);
+                }
+            });
+        });
+        $("#thoughts").on("keyup", function (e) {
+            let len = e.currentTarget.value.length;
+            $("#wordsLength").html(len + "/1037");
+        });
         $("#borrow").on("click", function (e) {
             $("#step-1").css("display", "none");
-            $("#step-2").attr("style", "")
+            $("#step-2").attr("style", "");
+        });
+        $("#return").on("click", function (e) {
+            $("#step-1").css("display", "none");
+            $("#step-4").attr("style", "");
+            $.get("http://fb.ufatfat.com/api/places", function (data, status) {
+                if (status != "success") {
+                    return
+                }
+                console.log(data);
+                for (let i = 0; i < data.data.length; i ++) {
+                    str = "<option value=\"" + data.data[i].id + "\">" + data.data[i].location_name + "</option>";
+                    console.log(str)
+                    $("#return_place").append(str);
+                }
+                form.render();
+            });
         });
         $("#step-2-btn").on("click", function (e) {
             if ($("#name").val() == "") {
@@ -94,9 +170,9 @@
             } else {
                 $("#step-2").css("display", "none");
                 $("#step-3").attr("style", "");
-                post_data.name = $("#name").val();
-                post_data.student_id = $("#student_id").val();
-                post_data.phone = $("#phone").val();
+                borrow_data.name = $("#name").val();
+                borrow_data.student_id = $("#student_id").val();
+                borrow_data.phone = $("#phone").val();
             }
         });
         $("#name").on("blur", function (e) {
@@ -135,7 +211,7 @@
                             btn: "确定",
                             time: 200000,
                             yes: function () {
-                                post_data.book_id = parseInt(val);
+                                borrow_data.book_id = parseInt(val);
                                 $("#sub").removeClass("layui-hide");
                                 layer.close(idx)
                             }
@@ -149,16 +225,15 @@
         });
         $("#sub").on("click", function (e) {
             $.post("http://fb.ufatfat.com/api/books", {
-                data: JSON.stringify(post_data)
+                data: JSON.stringify(borrow_data)
             }, function (data, status) {
                 if (status == "success") {
-                    layer.msg(data.msg);
+                    layer.msg("借书成功！");
                     setInterval(function() {
                         location.href = "http://fb.ufatfat.com/";
                     }, 2000);
                 }
-            })
+            });
         });
-        form.render();
     </script>
 </html>

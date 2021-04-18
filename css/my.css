@@ -24,6 +24,17 @@
 .my-required{
     color: red;
 }
+.my-words-count {
+    border:1px solid #000001;
+    border-radius:5pt;
+    height:60pt;
+    font-size:10pt;
+    margin-bottom: 2vh;
+    width:100%;
+    color: #000001;
+    overflow-x:hidden;
+    text-indent:20px;
+}
 .text {
 	font-family: HGXBS_CNKI;
 	font-size: 2.08vh;
