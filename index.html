@@ -121,7 +121,7 @@
                 layui.msg("请选择还书地点！");
                 return
             }
-            return_data.location_id = loc;
+            return_data.location_id = parseInt(loc);
             return_data.book_id = bookID;
             return_data.thoughts = thoughts;
 
